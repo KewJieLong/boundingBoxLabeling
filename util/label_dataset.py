@@ -33,7 +33,6 @@ def label_action(key, image, bbox, next_image):
 
 	if key == ord('w'):
 		if y - adjust_pixel > 0:
-			print('go up')
 			y -= adjust_pixel
 	elif key == ord('d'):
 		if (x + w) + adjust_pixel < width:
@@ -43,7 +42,6 @@ def label_action(key, image, bbox, next_image):
 			x -= adjust_pixel
 	elif key == ord('s'):
 		if (y + h) + adjust_pixel < height:
-			print('go down')
 			y += adjust_pixel
 	elif key == ord('j'):
 		if x + w < width:
@@ -69,7 +67,6 @@ def label_action(key, image, bbox, next_image):
 		sys.exit(0)
 
 	bbox = x, w, y, h
-	print('in the func bbox after: ', bbox)
 	return ori_image, next_image, bbox, save
 
 
@@ -87,8 +84,6 @@ if __name__ == '__main__':
 		if os.path.exists(save_path) is False:
 			os.mkdir(save_path)
 
-		print('dataset_path: ', dataset_path)
-		print('save_path:', save_path)
 		x, w, y, h = 0, 300, 0, 300
 		bbox = x, w, y, h
 
@@ -103,14 +98,12 @@ if __name__ == '__main__':
 			next_image = False
 			save = False
 			while next_image is False:
-				print(bbox)
 				x, w, y, h = bbox
 				ori_image = np.array(image)
 				image[y: y + h, x: x + w] = np.where((255 - image[y: y + h, x: x + w]) < 80, 255,
 														   image[y: y + h, x: x + w] + 80)
 				cv2.imshow('label', image)
 				image, next_image, bbox, save = label_action(cv2.waitKey(0), ori_image, bbox, next_image)
-				print('bbox: ', bbox)
 
 				if save:
 					x, w, y, h = bbox
